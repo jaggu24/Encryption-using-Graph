@@ -55,5 +55,27 @@ for i in range(int(b)):
 k=np.array(k)
 d=np.array(d)
 c=np.array(c)
-k2=np.linalg.inv(k)        
-print(k2)
+k2=np.linalg.inv(k)
+m3=np.dot(k2,c)
+m1=np.linalg.inv(d)
+m2=np.dot(m1,m3)
+s="A"
+k1=int(0)
+j=int(1)
+for i in range(len(m2)-1):
+#    for j in range(1,len(m2)):
+    if abs(m2[i][j]-m2[j][i])<=2:
+        s+=chr(ord(s[k1])+int(m2[j][i]))
+        k1+=1
+        j+=1
+        print(j)
+    else:        
+        s+=chr(ord(s[k1])+int(m2[i][j]))
+        k1+=1
+        j+=1
+        print(j)
+        break
+s+=chr(ord(s[k1])+int(m2[len(d)-2][len(d)-1]))
+print(s)
+#
+#print(m2)
