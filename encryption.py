@@ -6,18 +6,19 @@ Created on Sat Oct 19 17:50:09 2019
 """
 print("Decrypt")
 import numpy as np
-a1=np.array([[836,302,-624,476,450],[352,280,-180,476,450],[352,-688,-244,406,217],[836,-666,-744,198,77],[242,-605,-158,133,49]])
-a2=np.array([[0,22,0,0,0],[22,0,-22,27,11],[0,-22,0,4,28],[0,27,4,0,7],[0,11,28,7,0]])
-file=open("encrypt.txt",'w')
-for i in a1:
-    for j in i:
-        file.write(str(j))
-        file.write(" ")
-for i in a2:
-    for j in i:
-        file.write(str(j))
-        file.write(" ")
-file.close()
+import sympy as sy
+#    a1=np.array([[836,302,-664,476,450],[352,280,-180,476,450],[352,-688,-244,406,217],[836,-666,-744,198,77],[242,-605,-158,133,49]])
+#    a2=np.array([[0,22,0,0,0],[22,0,-22,27,11],[0,-22,0,4,28],[0,27,4,0,7],[0,11,28,7,0]])
+#    file=open("encrypt.txt",'w')
+#    for i in a1:
+#        for j in i:
+#            file.write(str(j))
+#            file.write(" ")
+#    for i in a2:
+#        for j in i:
+#            file.write(str(j))
+#            file.write(" ")
+#    file.close()
 #ss=[]
 print("Decryption")
 with open("encrypt.txt",'r') as file1:
@@ -52,30 +53,32 @@ for i in range(int(b)):
     for j in range(int(b)-i):
         k1.append(int(1))
     k.append(k1)
-k=np.array(k)
-d=np.array(d)
-c=np.array(c)
-k2=np.linalg.inv(k)
-m3=np.dot(k2,c)
-m1=np.linalg.inv(d)
-m2=np.dot(m1,m3)
+k=sy.Matrix(k)
+d=sy.Matrix(d)
+d1=np.array(d)
+c=sy.Matrix(c)
+k2=k.inv()
+m3=k2*c
+m1=d.inv()
+m2=m1*m3
+m4=np.array(m2)
 s="A"
 k1=int(0)
 j=int(1)
-for i in range(len(m2)-1):
+for i in range(len(m4)-1):
 #    for j in range(1,len(m2)):
-    if abs(m2[i][j]-m2[j][i])<=2:
-        s+=chr(ord(s[k1])+int(m2[j][i]))
+    if d1[i][j]-d1[j][i]<=2:
+        s+=chr(ord(s[k1])+int(d1[j][i]))
         k1+=1
         j+=1
         print(j)
     else:        
-        s+=chr(ord(s[k1])+int(m2[i][j]))
+        s+=chr(ord(s[k1])+int(d1[i][j]))
         k1+=1
         j+=1
         print(j)
         break
-s+=chr(ord(s[k1])+int(m2[len(d)-2][len(d)-1]))
-print(s)
-#
+#s+=chr(ord(s[k1])+int(a2[len(d)-2][len(d)-1]))
+print(s[1:])
+ #
 #print(m2)
